@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda</title>
+    <style>
+        :root {
+            --bg1: #f4efe6;
+            --bg2: #d9e8f5;
+            --card: rgba(255, 255, 255, 0.82);
+            --text: #1f2937;
+            --accent: #0f766e;
+            --accent-2: #f59e0b;
+            --danger: #dc2626;
+            --border: rgba(31, 41, 55, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+            color: var(--text);
+            background: radial-gradient(circle at top left, var(--bg1), transparent 45%),
+                        radial-gradient(circle at bottom right, var(--bg2), transparent 50%),
+                        #f8fafc;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 32px auto;
+            padding: 0 16px 40px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 24px;
+            animation: fadeIn 550ms ease;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            letter-spacing: 0.04em;
+        }
+
+        .hero p {
+            margin: 8px 0 0;
+            font-size: 1rem;
+            opacity: 0.84;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+        }
+
+        .card {
+            background: var(--card);
+            backdrop-filter: blur(6px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+            animation: slideUp 380ms ease;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 1.15rem;
+        }
+
+        form {
+            display: grid;
+            gap: 12px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        input {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 0.95rem;
+            background: #fff;
+        }
+
+        input:focus {
+            outline: 2px solid rgba(15, 118, 110, 0.25);
+            border-color: var(--accent);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: 0;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 120ms ease, opacity 120ms ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            opacity: 0.93;
+        }
+
+        .primary {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .secondary {
+            background: #1f2937;
+            color: #fff;
+        }
+
+        .danger {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .status {
+            min-height: 22px;
+            font-weight: 600;
+            color: #0b5;
+        }
+
+        .status.error {
+            color: var(--danger);
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 10px;
+        }
+
+        li {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.75);
+            display: grid;
+            gap: 10px;
+        }
+
+        .contact-title {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .contact-meta {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            display: grid;
+            gap: 4px;
+        }
+
+        @media (min-width: 800px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <section class="hero">
+        <h1>Agenda de Contatos</h1>
+        <p>Cadastre e visualize seus contatos rapidamente.</p>
+    </section>
+
+    <section class="grid">
+        <article class="card">
+            <h2>Novo contato</h2>
+            <form id="form-contato">
+                <div class="row">
+                    <input id="nome" type="text" placeholder="Nome" required>
+                    <input id="email" type="email" placeholder="Email" required>
+                </div>
+                <div class="row">
+                    <input id="telefone" type="text" placeholder="Telefone" required>
+                    <input id="observacao" type="text" placeholder="Observacao (opcional)">
+                </div>
+                <div class="buttons">
+                    <button class="primary" type="submit">Salvar</button>
+                    <button class="secondary" type="button" id="btn-atualizar">Atualizar lista</button>
+                </div>
+                <div id="status" class="status"></div>
+            </form>
+        </article>
+
+        <article class="card">
+            <h2>Contatos cadastrados</h2>
+            <ul id="lista-contatos"></ul>
+        </article>
+    </section>
+</div>
+
+<script>
+    const api = "/api/contatos";
+    const form = document.getElementById("form-contato");
+    const statusEl = document.getElementById("status");
+    const lista = document.getElementById("lista-contatos");
+    const btnAtualizar = document.getElementById("btn-atualizar");
+
+    function mostrarStatus(texto, erro = false) {
+        statusEl.textContent = texto;
+        statusEl.classList.toggle("error", erro);
+    }
+
+    function montarItem(contato) {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <div class="contact-title">${contato.nome}</div>
+            <div class="contact-meta">
+                <span>Email: ${contato.email}</span>
+                <span>Telefone: ${contato.telefone}</span>
+                <span>Observacao: ${contato.observacao || "-"}</span>
+            </div>
+            <div class="buttons">
+                <button class="danger" type="button">Excluir</button>
+            </div>
+        `;
+
+        li.querySelector("button").addEventListener("click", async () => {
+            try {
+                const resposta = await fetch(`${api}/${contato.id}`, { method: "DELETE" });
+                if (!resposta.ok) throw new Error("Falha ao excluir contato");
+                mostrarStatus("Contato removido com sucesso.");
+                await carregarContatos();
+            } catch (e) {
+                mostrarStatus(e.message, true);
+            }
+        });
+
+        return li;
+    }
+
+    async function carregarContatos() {
+        lista.innerHTML = "";
+        try {
+            const resposta = await fetch(api);
+            if (!resposta.ok) throw new Error("Falha ao carregar contatos");
+            const contatos = await resposta.json();
+
+            if (!contatos.length) {
+                lista.innerHTML = "<li>Nenhum contato cadastrado.</li>";
+                return;
+            }
+
+            contatos.forEach(c => lista.appendChild(montarItem(c)));
+        } catch (e) {
+            mostrarStatus(e.message, true);
+        }
+    }
+
+    form.addEventListener("submit", async (ev) => {
+        ev.preventDefault();
+        const payload = {
+            nome: document.getElementById("nome").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            telefone: document.getElementById("telefone").value.trim(),
+            observacao: document.getElementById("observacao").value.trim()
+        };
+
+        try {
+            const resposta = await fetch(api, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            if (!resposta.ok) {
+                const erro = await resposta.json();
+                throw new Error(erro.message || "Falha ao salvar contato");
+            }
+
+            form.reset();
+            mostrarStatus("Contato salvo com sucesso.");
+            await carregarContatos();
+        } catch (e) {
+            mostrarStatus(e.message, true);
+        }
+    });
+
+    btnAtualizar.addEventListener("click", carregarContatos);
+    carregarContatos();
+</script>
+</body>
+</html>

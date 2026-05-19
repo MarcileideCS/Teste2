@@ -38,6 +38,8 @@ public class Contato {
     @Column(length = 255)
     private String observacao;
 
+    public String teste;
+
     public Long getId() {
         return id;
     }

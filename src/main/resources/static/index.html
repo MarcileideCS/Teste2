@@ -193,6 +193,15 @@
             from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        .footer {
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.85;
+            margin-top: 18px;
+            background: transparent;
+            border-radius: 10px;
+            padding: 8px 12px;
+        }
     </style>
 </head>
 <body>
@@ -227,6 +236,10 @@
             <ul id="lista-contatos"></ul>
         </article>
     </section>
+    <footer class="card footer" id="footer-info">
+        <div>Agenda — versão 1.0</div>
+        <div id="build-date" style="margin-top:6px; font-size:0.85rem; opacity:0.8"></div>
+    </footer>
 </div>
 
 <script>
@@ -318,6 +331,11 @@
 
     btnAtualizar.addEventListener("click", carregarContatos);
     carregarContatos();
+
+    try {
+        const bd = document.getElementById('build-date');
+        if (bd) bd.textContent = `Data: ${new Date().toLocaleDateString('pt-BR')}`;
+    } catch (e) { /* noop */ }
 </script>
 </body>
 </html>
